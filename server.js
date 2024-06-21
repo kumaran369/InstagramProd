@@ -14,9 +14,9 @@ app.use(bodyParser.json());
 
 // Create MySQL connection
 const db = mysql.createConnection({
-    host: 'monorail.proxy.rlwy.net',
+    host: 'viaduct.proxy.rlwy.net',
     user: 'root', // replace with your MySQL username
-    password: 'PvwNXiBCDTYSksYgrHDQhpuuRbzDMjtC', // replace with your MySQL password
+    password: 'RaRNOdpYCigBwEbaItdEiFMGOdcFvUay', // replace with your MySQL password
     database: 'instagram_db' // use your actual database name here
 });
 
