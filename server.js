@@ -14,9 +14,9 @@ app.use(bodyParser.json());
 
 // Create MySQL connection
 const db = mysql.createConnection({
-    host: 'localhost',
+    host: 'viaduct.proxy.rlwy.net',
     user: 'root', // replace with your MySQL username
-    password: '12345678', // replace with your MySQL password
+    password: 'YSenAlBxyxSULXxdmvpXjakfZKGCinba', // replace with your MySQL password
     database: 'insta_db' // use your actual database name here
 });
 
