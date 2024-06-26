@@ -17,7 +17,7 @@ const db = mysql.createConnection({
     host: 'viaduct.proxy.rlwy.net',
     user: 'root', // replace with your MySQL username
     password: 'YSenAlBxyxSULXxdmvpXjakfZKGCinba', // replace with your MySQL password
-    database: 'insta_db' // use your actual database name here
+    database: 'instagram_db' // use your actual database name here
 });
 
 db.connect((err) => {
