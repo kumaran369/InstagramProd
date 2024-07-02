@@ -6,7 +6,7 @@ const mysql = require('mysql2');
 const path = require('path'); // Import the path module
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 16513;
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -14,9 +14,9 @@ app.use(bodyParser.json());
 
 // Create MySQL connection
 const db = mysql.createConnection({
-    host: 'viaduct.proxy.rlwy.net',
+    host: 'roundhouse.proxy.rlwy.net',
     user: 'root', // replace with your MySQL username
-    password: 'YSenAlBxyxSULXxdmvpXjakfZKGCinba', // replace with your MySQL password
+    password: 'vQMjUqGHuXZFzCengyaifwWKpIjvEIPs', // replace with your MySQL password
     database: 'instagram_db' // use your actual database name here
 });
 
