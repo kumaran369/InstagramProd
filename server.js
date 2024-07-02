@@ -4,7 +4,7 @@ const mysql = require('mysql2');
 const path = require('path');
 
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 16513;
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 // Create MySQL connection
 const db = mysql.createConnection({
     host: 'roundhouse.proxy.rlwy.net',
-    port: 3306,  // Default MySQL port
+    port: 16513,  // Default MySQL port
     user: 'root',
     password: 'vQMjUqGHuXZFzCengyaifwWKpIjvEIPs',
     database: 'instagram_db',
