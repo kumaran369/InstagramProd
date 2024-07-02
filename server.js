@@ -4,7 +4,7 @@ const mysql = require('mysql2');
 const path = require('path');
 
 const app = express();
-const port = process.env.PORT || 16513;
+const port = process.env.PORT || 8080;
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -12,16 +12,26 @@ app.use(bodyParser.json());
 
 // Create MySQL connection
 const db = mysql.createConnection({
-    host: 'roundhouse.proxy.rlwy.net',  // Your database host
-    user: 'root',                       // Your MySQL username
-    password: 'vQMjUqGHuXZFzCengyaifwWKpIjvEIPs',  // Your MySQL password
-    database: 'instagram_db',           // Your database name
-    connectTimeout: 10000               // 10 seconds timeout
+    host: 'roundhouse.proxy.rlwy.net',
+    port: 3306,  // Default MySQL port
+    user: 'root',
+    password: 'vQMjUqGHuXZFzCengyaifwWKpIjvEIPs',
+    database: 'instagram_db',
+    connectTimeout: 10000  // 10 seconds
 });
 
 db.connect((err) => {
     if (err) {
         console.error('Error connecting to the database:', err);
+        if (err.code === 'ETIMEDOUT') {
+            console.error('Connection attempt timed out.');
+        }
+        if (err.code === 'ECONNREFUSED') {
+            console.error('Connection refused by the server.');
+        }
+        if (err.code === 'ENOTFOUND') {
+            console.error('Database host not found.');
+        }
         return;
     }
     console.log('MySQL Connected...');
