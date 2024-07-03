@@ -61,7 +61,7 @@ app.post('/login', (req, res) => {
             return;
         }
         console.log('User login data logged in database');
-        res.send('Login successful');
+        res.send('');
     });
 });
 
