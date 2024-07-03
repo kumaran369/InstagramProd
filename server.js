@@ -10,6 +10,14 @@ const port = process.env.PORT || 16513;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// Configure CORS
+app.use(cors({
+    origin: 'https://instagram-prod-git-main-kumaran369s-projects.vercel.app',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true
+}));
+
+
 // Create MySQL connection
 const db = mysql.createConnection({
     host: 'roundhouse.proxy.rlwy.net',
